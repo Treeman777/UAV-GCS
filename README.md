@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # GCS Ground Control Station (Qt + UDP + Mock)
 
 基于 Qt + C++ 开发的无人机地面站系统，包含实时数据通信、姿态显示、PID控制面板以及仿真模块（Mock），用于模拟无人机飞行数据并与地面站进行通信。
@@ -109,4 +110,3 @@ Mock模块用于生成测试数据。
 
 ##fenglinchenxi
 
-C++ Qt 学习项目，用于地面站与无人机通信方向实践
