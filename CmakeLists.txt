@@ -1,0 +1,57 @@
+cmake_minimum_required(VERSION 3.10)
+project(GCS)
+
+set(CMAKE_CXX_STANDARD 11)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_PREFIX_PATH "/Users/wangyadong/Qt/6.11.1/macos")
+
+find_package(Qt6 COMPONENTS Widgets Network WebEngineWidgets REQUIRED)
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
+file(GLOB SRC 
+    ui/*.cpp 
+    communication/*.cpp 
+    control/*.cpp 
+    logger/*.cpp
+)
+
+add_executable(
+    gcs_ui
+    main.cpp
+    ${SRC}
+)
+
+add_executable(
+    mock
+    simulation/mock_main.cpp
+)
+
+target_link_libraries(
+    gcs_ui 
+PRIVATE 
+    Qt6::Widgets 
+    Qt6::Network 
+    Qt6::WebEngineWidgets
+    Threads::Threads
+)
+
+target_include_directories(
+    gcs_ui
+PRIVATE
+    communication
+    control
+    logger
+    ui    
+)
+
+target_include_directories(
+    mock
+PRIVATE
+    communication
+)
