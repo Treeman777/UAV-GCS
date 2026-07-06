@@ -21,12 +21,12 @@ struct Data {
 
 // 完整数据包 - 52字节
 struct DataPacket {
-    uint16_t header = 0xAA55;      // 帧头
+    uint16_t header = 0xAA55;      // 帧头取的值
     uint16_t length = sizeof(Data); // 载荷长度
     uint32_t sequence = 0;         // 帧序号
-    Data payload;         // 载荷数据
+    Data payload;         // 载荷数据40字节
     uint16_t crc16 = 0;            // CRC16校验
-    uint16_t tail = 0x55AA;        // 帧尾
+    uint16_t tail = 0x55AA;        // 帧尾取的值
 };
 
 

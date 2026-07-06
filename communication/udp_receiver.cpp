@@ -8,7 +8,8 @@
 #include <arpa/inet.h>  // 【核心修复：加上这把翻译 IP 地址的专用扳手！】
 
 //CRC算法
-uint16_t calculate_crc16(const uint8_t* data, size_t length) {
+//将核心数据传入校验
+uint16_t crc16(const uint8_t* data, size_t length) {
     uint16_t crc = 0xFFFF;
     for (size_t i = 0; i < length; ++i) {
         crc ^= data[i];
@@ -71,11 +72,10 @@ void UdpReceiver::receiveLoop() {
         if (bytes_read == sizeof(DataPacket)) {//长度是否一致
             // 1. 验证帧头帧尾
             if (packet.header == 0xAA55 && packet.tail == 0x55AA) {
-                // 【核心红线：计算收到的数据的真实 CRC】
                 // 必须严格对应发送端的校验范围：长度(2) + 序号(4) + 载荷(40)
                 size_t checksum_length = sizeof(packet.length) + sizeof(packet.sequence) + sizeof(packet.payload);
                 const uint8_t* checksum_start = reinterpret_cast<const uint8_t*>(&packet.length);
-                uint16_t computed_crc = calculate_crc16(checksum_start, checksum_length);
+                uint16_t computed_crc = crc16(checksum_start, checksum_length);
 
                 // 2. 将自己算出来的 CRC 和包里携带的 CRC 进行对比！
                 if (computed_crc == packet.crc16) {
@@ -103,7 +103,7 @@ void UdpReceiver::sendCommand(CommandType cmd) {
     // 计算上行链路的 CRC 校验
     size_t checksum_length = sizeof(packet.command) + sizeof(packet.param1) + sizeof(packet.param2);
     const uint8_t* checksum_start = reinterpret_cast<const uint8_t*>(&packet.command);
-    packet.crc16 = calculate_crc16(checksum_start, checksum_length);
+    packet.crc16 = crc16(checksum_start, checksum_length);
 
     // 瞄准无人机的命令接收端口：8081
     sockaddr_in target_addr;
@@ -130,7 +130,7 @@ void UdpReceiver::sendPid(float p, float i, float d) {
     // CRC 校验
     size_t checksum_length = sizeof(packet.p) + sizeof(packet.i) + sizeof(packet.d);
     const uint8_t* checksum_start = reinterpret_cast<const uint8_t*>(&packet.p);
-    packet.crc16 = calculate_crc16(checksum_start, checksum_length);
+    packet.crc16 = crc16(checksum_start, checksum_length);
 
     sockaddr_in target_addr;
     memset(&target_addr, 0, sizeof(target_addr));

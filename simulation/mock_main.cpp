@@ -10,7 +10,7 @@
 #include <unistd.h>
 
 //计算crc发送侧函数，需要的形参是需要发送的数据以及数据长度
-uint16_t calculate_crc16(const uint8_t* data, size_t length) {
+uint16_t crc16(const uint8_t* data, size_t length) {
     uint16_t crc = 0xFFFF;
     for (size_t i = 0; i < length; ++i) {
         crc ^= data[i];
@@ -122,7 +122,7 @@ int main() {
 
         size_t checksum_length = sizeof(packet.length) + sizeof(packet.sequence) + sizeof(packet.payload);
         const uint8_t* checksum_start = reinterpret_cast<const uint8_t*>(&packet.length);
-        packet.crc16 = calculate_crc16(checksum_start, checksum_length);
+        packet.crc16 = crc16(checksum_start, checksum_length);
         //这句就是计算crc16的号码，然后赋值到packet里面的crc16里面
 
         sendto(send_fd, reinterpret_cast<const char*>(&packet), sizeof(packet), 0, (const sockaddr*)&target_addr, sizeof(target_addr));

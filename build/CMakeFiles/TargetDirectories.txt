@@ -1,8 +1,0 @@
-/Users/wangyadong/Code/Embedded/Project/GCS/build/CMakeFiles/gcs_ui.dir
-/Users/wangyadong/Code/Embedded/Project/GCS/build/CMakeFiles/mock.dir
-/Users/wangyadong/Code/Embedded/Project/GCS/build/CMakeFiles/edit_cache.dir
-/Users/wangyadong/Code/Embedded/Project/GCS/build/CMakeFiles/rebuild_cache.dir
-/Users/wangyadong/Code/Embedded/Project/GCS/build/CMakeFiles/gcs_ui_autogen_timestamp_deps.dir
-/Users/wangyadong/Code/Embedded/Project/GCS/build/CMakeFiles/gcs_ui_autogen.dir
-/Users/wangyadong/Code/Embedded/Project/GCS/build/CMakeFiles/mock_autogen_timestamp_deps.dir
-/Users/wangyadong/Code/Embedded/Project/GCS/build/CMakeFiles/mock_autogen.dir
